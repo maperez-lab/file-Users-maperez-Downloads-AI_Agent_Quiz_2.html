@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which HubSpot AI Agent is Right for You?</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #f5f8fa;
+    min-height: 100vh;
+    color: #1c1c1c;
+  }
+  .header {
+    background: #1c1c1c;
+    color: white;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hs-logo {
+    background: #ff7a59;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+  .header h1 { font-size: 18px; font-weight: 600; }
+  .header p { font-size: 13px; color: #aaa; margin-top: 2px; }
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+  .intro-card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e3eaf1;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .intro-card h2 { font-size: 26px; font-weight: 700; color: #1c1c1c; margin-bottom: 10px; }
+  .intro-card p { color: #516f90; font-size: 15px; line-height: 1.6; }
+  .badge {
+    display: inline-block;
+    background: #fff4f0;
+    color: #ff5c35;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+  }
+  .progress-wrap { margin-bottom: 24px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #516f90;
+    margin-bottom: 8px;
+  }
+  .progress-bar { height: 6px; background: #e3eaf1; border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #ff7a59; border-radius: 10px; transition: width 0.4s ease; }
+  .question-card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e3eaf1;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .q-number { font-size: 12px; font-weight: 600; color: #ff7a59; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .q-text { font-size: 20px; font-weight: 600; color: #1c1c1c; margin-bottom: 24px; line-height: 1.4; }
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option {
+    border: 1.5px solid #e3eaf1;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    color: #2e475d;
+    background: white;
+  }
+  .option:hover { border-color: #ff7a59; background: #fff8f6; }
+  .option.selected { border-color: #ff7a59; background: #fff4f0; color: #1c1c1c; }
+  .option-icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #f5f8fa;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .option.selected .option-icon { background: #ffece6; }
+  .option-text { flex: 1; }
+  .btn-next {
+    display: block; width: 100%; padding: 14px;
+    background: #ff7a59; color: white;
+    font-size: 15px; font-weight: 600;
+    border: none; border-radius: 10px;
+    cursor: pointer; margin-top: 16px;
+    transition: background 0.15s;
+  }
+  .btn-next:hover { background: #ff5c35; }
+  .btn-next:disabled { background: #d0dce6; cursor: not-allowed; }
+  .result-card { background: white; border-radius: 14px; border: 1px solid #e3eaf1; overflow: hidden; margin-bottom: 20px; }
+  .result-header { padding: 28px 32px; color: white; position: relative; }
+  .result-label { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.85; margin-bottom: 8px; }
+  .result-agent { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .result-tagline { font-size: 15px; opacity: 0.9; }
+  .result-big-icon { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); font-size: 56px; opacity: 0.2; }
+  .result-body { padding: 28px 32px; }
+  .result-why { margin-bottom: 24px; }
+  .result-why h3 { font-size: 15px; font-weight: 600; color: #1c1c1c; margin-bottom: 10px; }
+  .result-why p { color: #516f90; font-size: 14px; line-height: 1.7; }
+  .wins { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .win-box { background: #f5f8fa; border-radius: 10px; padding: 14px 16px; }
+  .win-num { font-size: 24px; font-weight: 700; color: #1c1c1c; }
+  .win-label { font-size: 12px; color: #516f90; margin-top: 2px; }
+  .first-step-box {
+    background: #f5f8fa; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px;
+  }
+  .first-step-box h3 { font-size: 14px; font-weight: 600; color: #1c1c1c; margin-bottom: 8px; }
+  .first-step-box p { color: #516f90; font-size: 14px; line-height: 1.7; }
+
+  /* CTA Resources section */
+  .cta-section { border-top: 1px solid #e3eaf1; padding-top: 24px; margin-top: 4px; }
+  .cta-section h3 { font-size: 15px; font-weight: 600; color: #1c1c1c; margin-bottom: 6px; }
+  .cta-section p { font-size: 13px; color: #516f90; margin-bottom: 16px; }
+  .cta-links { display: flex; flex-direction: column; gap: 10px; }
+  .cta-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1.5px solid #e3eaf1;
+    text-decoration: none;
+    color: #1c1c1c;
+    background: white;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .cta-link:hover { border-color: #ff7a59; background: #fff8f6; }
+  .cta-link-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .cta-link-body { flex: 1; }
+  .cta-link-title { font-size: 14px; font-weight: 600; color: #1c1c1c; }
+  .cta-link-desc { font-size: 12px; color: #516f90; margin-top: 2px; }
+  .cta-link-arrow { font-size: 16px; color: #b0c4d8; flex-shrink: 0; }
+  .cta-link:hover .cta-link-arrow { color: #ff7a59; }
+  .cta-link.primary {
+    background: #ff7a59; border-color: #ff7a59; color: white;
+  }
+  .cta-link.primary .cta-link-title,
+  .cta-link.primary .cta-link-desc,
+  .cta-link.primary .cta-link-arrow { color: white; }
+  .cta-link.primary:hover { background: #ff5c35; border-color: #ff5c35; }
+
+  .also-consider { border-top: 1px solid #e3eaf1; padding-top: 20px; margin-top: 20px; }
+  .also-consider h4 { font-size: 13px; font-weight: 600; color: #516f90; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .also-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .also-tag {
+    background: white; border: 1px solid #e3eaf1; border-radius: 20px;
+    padding: 6px 14px; font-size: 13px; color: #2e475d; font-weight: 500;
+  }
+  .start-btn {
+    display: block; width: 100%; padding: 16px;
+    background: #ff7a59; color: white;
+    font-size: 16px; font-weight: 600;
+    border: none; border-radius: 10px;
+    cursor: pointer; margin-top: 20px;
+    transition: background 0.15s;
+  }
+  .start-btn:hover { background: #ff5c35; }
+  .restart-btn {
+    display: block; width: 100%; padding: 12px;
+    background: white; color: #516f90;
+    font-size: 14px; font-weight: 500;
+    border: 1.5px solid #e3eaf1;
+    border-radius: 10px; cursor: pointer; margin-top: 12px;
+    transition: all 0.15s;
+  }
+  .restart-btn:hover { border-color: #ff7a59; color: #ff7a59; }
+  .steps { display: flex; gap: 8px; margin-bottom: 28px; justify-content: center; }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #e3eaf1; transition: background 0.2s; }
+  .step-dot.active { background: #ff7a59; }
+  .step-dot.done { background: #00bda5; }
+  .hidden { display: none; }
+  .footer-credit { text-align: center; padding: 16px 0; color: #516f90; font-size: 13px; }
+  @media (max-width: 500px) {
+    .wins { grid-template-columns: 1fr; }
+    .header { padding: 20px 16px; }
+    .container { padding: 20px 12px; }
+    .question-card, .result-body { padding: 20px; }
+    .result-header { padding: 20px; }
+    .result-big-icon { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div><div class="hs-logo">HubSpot</div></div>
+  <div>
+    <h1>AI Agent Finder</h1>
+    <p>Find the right Breeze Agent for your business</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="intro-card">
+      <div class="badge">2-minute quiz</div>
+      <h2>Which AI Agent is Right for You?</h2>
+      <p>Answer 5 quick questions about your business challenges and we'll recommend the HubSpot Breeze Agent that will have the biggest impact — plus direct links to get started today.</p>
+      <button class="start-btn" onclick="startQuiz()">Start the quiz &rarr;</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="prog-label">Question 1 of 5</span>
+        <span id="prog-pct">20%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+    <div class="steps" id="step-dots"></div>
+    <div class="question-card">
+      <div class="q-number" id="q-number">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-options"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="hidden"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "What's the biggest time drain for your team right now?",
+    options: [
+      { icon: "💬", text: "Answering the same customer questions over and over", tags: ["customer"] },
+      { icon: "🔍", text: "Sales reps spending too long researching leads before calls", tags: ["prospecting"] },
+      { icon: "✍️", text: "Creating enough content — blogs, emails, social posts", tags: ["content"] },
+      { icon: "📊", text: "Getting useful data and insights out of our CRM", tags: ["data"] },
+    ]
+  },
+  {
+    text: "Where does your team spend most of their working day?",
+    options: [
+      { icon: "🎧", text: "Customer support — handling tickets, chats, and inquiries", tags: ["customer"] },
+      { icon: "📞", text: "Sales — prospecting, outreach, and pipeline management", tags: ["prospecting"] },
+      { icon: "📣", text: "Marketing — campaigns, content, and lead generation", tags: ["content"] },
+      { icon: "📈", text: "Operations or leadership — tracking performance and making decisions", tags: ["data"] },
+    ]
+  },
+  {
+    text: "If you could wave a magic wand, what would be gone from your week?",
+    options: [
+      { icon: "🔄", text: "Repetitive questions I (or my team) answer on repeat", tags: ["customer"] },
+      { icon: "⏰", text: "Long call prep — researching every account before meetings", tags: ["prospecting"] },
+      { icon: "😩", text: "Staring at a blank page trying to start content drafts", tags: ["content"] },
+      { icon: "🗂️", text: "Manually pulling reports and digging through CRM data", tags: ["data", "prospecting"] },
+    ]
+  },
+  {
+    text: "What's your most urgent business goal this quarter?",
+    options: [
+      { icon: "⭐", text: "Improve customer satisfaction and reduce support response time", tags: ["customer"] },
+      { icon: "🎯", text: "Increase pipeline and improve outreach response rates", tags: ["prospecting"] },
+      { icon: "🚀", text: "Scale content production and generate more qualified leads", tags: ["content"] },
+      { icon: "💡", text: "Make smarter decisions faster with better data", tags: ["data", "prospecting"] },
+    ]
+  },
+  {
+    text: "How big is your team, and how do you describe your HubSpot setup?",
+    options: [
+      { icon: "🏢", text: "1–10 people, we're still building our HubSpot foundation", tags: ["assistant"] },
+      { icon: "📦", text: "10–50 people, we use HubSpot daily but haven't explored AI yet", tags: ["customer", "content"] },
+      { icon: "🏗️", text: "50–200 people, we want to scale without adding headcount", tags: ["prospecting", "customer"] },
+      { icon: "🏭", text: "200+ people, we need AI to manage complexity and volume", tags: ["data", "customer", "prospecting"] },
+    ]
+  }
+];
+
+const agents = {
+  customer: {
+    name: "Customer Agent",
+    tagline: "Resolve common questions 24/7 — so your team can focus on what matters",
+    icon: "💬",
+    color: "#FF7A59",
+    why: "Based on your answers, your biggest opportunity is in customer support efficiency. Customer Agent handles routine questions autonomously — trained on your knowledge base, past conversations, and up to 1,000 pages of your website. It escalates complex cases to humans with full context intact.",
+    wins: [
+      { num: "79%", label: "of chat volume handled without human intervention (Soundstripe)" },
+      { num: "54%", label: "drop in human first-response time on email" },
+    ],
+    firstStep: "Start by auditing your top 10–15 most common support questions. These become your knowledge base foundation. Customer Agent is only as good as the content you give it — clean knowledge base first, then flip the switch.",
+    ctas: [
+      {
+        icon: "📖",
+        iconBg: "#fff4f0",
+        title: "Set up the Customer Agent",
+        desc: "Official HubSpot step-by-step setup guide",
+        url: "https://knowledge.hubspot.com/customer-agent/set-up-the-customer-agent",
+        primary: true
+      },
+      {
+        icon: "🎓",
+        iconBg: "#e8f8f5",
+        title: "Customer Agent Academy Course",
+        desc: "Free HubSpot Academy training on AI in customer service",
+        url: "https://academy.hubspot.com/courses?search=customer%20agent"
+      },
+      {
+        icon: "💬",
+        iconBg: "#f0f4ff",
+        title: "Customer Agent case studies",
+        desc: "Real results from Soundstripe, Youth on Course, and more",
+        url: "https://www.hubspot.com/products/artificial-intelligence/case-studies"
+      },
+      {
+        icon: "💰",
+        iconBg: "#fff8e6",
+        title: "AI Credits calculator",
+        desc: "Estimate your monthly cost before you scale",
+        url: "https://www.hubspot.com/products/artificial-intelligence"
+      }
+    ],
+    also: ["Breeze Assistant", "HubSpot AEO", "Prospecting Agent"]
+  },
+  prospecting: {
+    name: "Prospecting Agent",
+    tagline: "Give your reps everything they need before every conversation",
+    icon: "🎯",
+    color: "#00BDA5",
+    why: "Your team is losing selling time to research. Prospecting Agent researches target accounts using their website, news, and your CRM data, and delivers a full briefing to reps before each call. What used to take 20–30 minutes now takes seconds.",
+    wins: [
+      { num: "2×", label: "outreach response rates vs. industry benchmark (early users)" },
+      { num: "20–30 min", label: "of call prep eliminated per meeting" },
+    ],
+    firstStep: "Start with a 28-day free trial — available now at $1 per recommended lead. Identify your top 5 reps, activate the agent for them, and compare call outcomes vs. before. Then scale based on results.",
+    ctas: [
+      {
+        icon: "🚀",
+        iconBg: "#e8f8f5",
+        title: "Try Prospecting Agent free for 28 days",
+        desc: "Start your trial — $1 per recommended lead, no commitment",
+        url: "https://www.hubspot.com/pricing/sales?hubs_content=www.hubspot.com%2F404&hubs_content-cta=nav-pricing&url=%2Fproducts%2Fsales%2Fprospecting-agent&domain=hubspot.com&currencyCode=USD",
+        primary: true
+      },
+      {
+        icon: "📖",
+        iconBg: "#fff4f0",
+        title: "Prospecting Agent setup guide",
+        desc: "HubSpot Knowledge Base — full configuration walkthrough",
+        url: "https://knowledge.hubspot.com/prospecting/use-the-prospecting-agent"
+      },
+      {
+        icon: "🎓",
+        iconBg: "#f0f4ff",
+        title: "Sales AI Academy course",
+        desc: "Free HubSpot Academy — AI for sales teams",
+        url: "https://academy.hubspot.com/courses?search=prospecting%20agent"
+      },
+      {
+        icon: "💰",
+        iconBg: "#fff8e6",
+        title: "AI Credits & pricing overview",
+        desc: "Understand how credits work before you scale",
+        url: "https://www.hubspot.com/products/artificial-intelligence"
+      }
+    ],
+    also: ["Breeze Assistant", "Customer Agent", "Data Agent"]
+  },
+  content: {
+    name: "HubSpot AEO",
+    tagline: "Get your brand found in AI-generated answers — where your buyers are searching now",
+    icon: "🌐",
+    color: "#6366F1",
+    why: "You have a visibility problem. Buyers are no longer just Googling — they're asking ChatGPT, Gemini, and Perplexity. HubSpot AEO tracks where your brand appears in AI-generated answers, benchmarks you against competitors, and shows you exactly what to fix so you show up when it matters.",
+    wins: [
+      { num: "−27%", label: "organic traffic drop for HubSpot customers YoY — AI search is the shift" },
+      { num: "8,000", label: "new website visitors in weeks for Sandler using HubSpot AEO" },
+    ],
+    firstStep: "Start by running an AI visibility audit — see where your brand currently appears (or doesn't) across ChatGPT, Gemini, and Perplexity. HubSpot AEO is available in Marketing Hub Pro/Enterprise or as a standalone tool for $50/month.",
+    ctas: [
+      {
+        icon: "🌐",
+        iconBg: "#f0f0ff",
+        title: "Set up & analyse AI visibility (AEO)",
+        desc: "HubSpot Knowledge Base — AEO setup and analysis guide",
+        url: "https://knowledge.hubspot.com/seo/set-up-and-analyze-ai-visibility",
+        primary: true
+      },
+      {
+        icon: "📖",
+        iconBg: "#fff4f0",
+        title: "Set up & analyse AI visibility (AEO)",
+        desc: "Get your content found in ChatGPT, Gemini & Perplexity",
+        url: "https://knowledge.hubspot.com/seo/set-up-and-analyze-ai-visibility"
+      },
+      {
+        icon: "🌐",
+        iconBg: "#e8f8f5",
+        title: "HubSpot AEO — be found by AI search",
+        desc: "Make your content appear in ChatGPT, Gemini & Perplexity",
+        url: "https://www.hubspot.com/products/marketing/aeo"
+      },
+      {
+        icon: "🎓",
+        iconBg: "#f0f4ff",
+        title: "Content AI Academy",
+        desc: "Free course — AI-powered content strategy",
+        url: "https://academy.hubspot.com/courses?search=content%20ai"
+      }
+    ],
+    also: ["HubSpot AEO", "Breeze Assistant", "Loop Marketing"]
+  },
+  data: {
+    name: "Data Agent",
+    tagline: "Answer custom questions about any contact or company using your CRM signals",
+    icon: "📊",
+    color: "#2E475D",
+    why: "You're making decisions without complete information. Data Agent answers custom questions about contacts, companies, and deals using signals already in your CRM — so your reps and leaders know exactly who to reach, why, and when.",
+    wins: [
+      { num: "34%", label: "of Tier-1 tickets resolved without human touch (SaaS case study)" },
+      { num: "11pt", label: "CSAT score improvement from better-informed team decisions" },
+    ],
+    firstStep: "Start by defining the 5 most common questions your team asks about leads or customers that currently require manual research. These become your first Data Agent queries. Audit what data is actually in your CRM — garbage in, garbage out.",
+    ctas: [
+      {
+        icon: "📊",
+        iconBg: "#eaf0f6",
+        title: "Set up the Data Agent",
+        desc: "HubSpot Knowledge Base — full Data Agent setup guide",
+        url: "https://knowledge.hubspot.com/data-management/use-data-agent",
+        primary: true
+      },
+      {
+        icon: "📖",
+        iconBg: "#fff4f0",
+        title: "Breeze Intelligence overview",
+        desc: "Data enrichment and buyer intent signals explained",
+        url: "https://www.hubspot.com/products/artificial-intelligence/breeze-intelligence"
+      },
+      {
+        icon: "🎓",
+        iconBg: "#f0f4ff",
+        title: "Data Agent Academy",
+        desc: "Free training — using AI for smarter CRM decisions",
+        url: "https://academy.hubspot.com/courses?search=data%20agent"
+      },
+      {
+        icon: "💰",
+        iconBg: "#fff8e6",
+        title: "AI Credits calculator & pricing",
+        desc: "Plan your credit usage before activating agents",
+        url: "https://www.hubspot.com/pricing/data"
+      }
+    ],
+    also: ["Prospecting Agent", "Breeze Intelligence", "Customer Agent"]
+  },
+  assistant: {
+    name: "Breeze Assistant",
+    tagline: "Your AI companion across every HubSpot surface — the best starting point",
+    icon: "🤖",
+    color: "#FF7A59",
+    why: "For a team still building their HubSpot foundation, Breeze Assistant is your highest-ROI starting point. It lives inside every HubSpot surface — summarizing calls, drafting emails, writing follow-ups, analyzing pipeline. No complex setup. No extra cost.",
+    wins: [
+      { num: "Free", label: "Breeze Assistant is included in every HubSpot plan" },
+      { num: "Day 1", label: "Value from your very first use — no training required" },
+    ],
+    firstStep: "Turn on Breeze Assistant today — it's already in your HubSpot. For the next two weeks, every time your team writes an email or summary manually, try Breeze Assistant first. Track where it saves the most time. That's your signal for which specialized agent to add next.",
+    ctas: [
+      {
+        icon: "🤖",
+        iconBg: "#fff4f0",
+        title: "Start using Breeze Assistant",
+        desc: "It's already in your HubSpot — here's how to activate it",
+        url: "https://knowledge.hubspot.com/get-started/use-chatspot-and-the-breeze-ai-assistant",
+        primary: true
+      },
+      {
+        icon: "🎓",
+        iconBg: "#e8f8f5",
+        title: "HubSpot AI Academy — free course",
+        desc: "Learn Breeze Assistant features in 30 minutes",
+        url: "https://academy.hubspot.com/courses/hubspot-ai"
+      },
+      {
+        icon: "💬",
+        iconBg: "#f0f0ff",
+        title: "Breeze AI overview & all agents",
+        desc: "See everything Breeze can do — pick your next step",
+        url: "https://www.hubspot.com/products/artificial-intelligence"
+      },
+      {
+        icon: "📖",
+        iconBg: "#fff8e6",
+        title: "HubSpot AI blog & best practices",
+        desc: "Tips, use cases, and implementation guides",
+        url: "https://blog.hubspot.com/marketing/ai"
+      }
+    ],
+    also: ["Content Agent", "Customer Agent", "Prospecting Agent"]
+  }
+};
+
+let answers = [], current = 0, selected = null;
+
+function startQuiz() {
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  buildDots();
+  renderQuestion();
+}
+
+function buildDots() {
+  const wrap = document.getElementById('step-dots');
+  wrap.innerHTML = '';
+  for (let i = 0; i < questions.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i === 0 ? ' active' : '');
+    d.id = 'dot-' + i;
+    wrap.appendChild(d);
+  }
+}
+
+function updateDots() {
+  for (let i = 0; i < questions.length; i++) {
+    const d = document.getElementById('dot-' + i);
+    d.className = 'step-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+  }
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('q-number').textContent = 'Question ' + (current + 1);
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('prog-label').textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+  const pct = Math.round(((current + 1) / questions.length) * 100);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('btn-next').disabled = true;
+  selected = null;
+
+  const wrap = document.getElementById('q-options');
+  wrap.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = '<div class="option-icon">' + opt.icon + '</div><div class="option-text">' + opt.text + '</div>';
+    div.onclick = () => selectOption(i, opt.tags);
+    wrap.appendChild(div);
+  });
+  updateDots();
+}
+
+function selectOption(idx, tags) {
+  selected = tags;
+  document.querySelectorAll('.option').forEach((el, i) => el.classList.toggle('selected', i === idx));
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion() {
+  if (!selected) return;
+  answers.push(...selected);
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQuestion();
+}
+
+function showResult() {
+  document.getElementById('quiz').classList.add('hidden');
+  const resultEl = document.getElementById('result');
+  resultEl.classList.remove('hidden');
+
+  const counts = {};
+  answers.forEach(tag => { counts[tag] = (counts[tag] || 0) + 1; });
+  let top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+  if (!top || !agents[top]) top = 'assistant';
+
+  const a = agents[top];
+
+  const ctaHTML = a.ctas.map(c => `
+    <a class="cta-link${c.primary ? ' primary' : ''}" href="${c.url}" target="_blank" rel="noopener">
+      <div class="cta-link-icon" style="background:${c.primary ? 'rgba(255,255,255,0.2)' : c.iconBg}">${c.icon}</div>
+      <div class="cta-link-body">
+        <div class="cta-link-title">${c.title}</div>
+        <div class="cta-link-desc">${c.desc}</div>
+      </div>
+      <div class="cta-link-arrow">↗</div>
+    </a>
+  `).join('');
+
+  resultEl.innerHTML = `
+    <div class="result-card">
+      <div class="result-header" style="background:${a.color}">
+        <div class="result-label">Your best match</div>
+        <div class="result-agent">${a.icon} ${a.name}</div>
+        <div class="result-tagline">${a.tagline}</div>
+        <div class="result-big-icon">${a.icon}</div>
+      </div>
+      <div class="result-body">
+        <div class="result-why">
+          <h3>Why this agent fits your situation</h3>
+          <p>${a.why}</p>
+        </div>
+        <div class="wins">
+          ${a.wins.map(w => `<div class="win-box"><div class="win-num">${w.num}</div><div class="win-label">${w.label}</div></div>`).join('')}
+        </div>
+        <div class="first-step-box">
+          <h3>Your first step this week</h3>
+          <p>${a.firstStep}</p>
+        </div>
+        <div class="cta-section">
+          <h3>Start here — official HubSpot resources</h3>
+          <p>Click any link to open the HubSpot docs, Academy course, or tool directly.</p>
+          <div class="cta-links">${ctaHTML}</div>
+        </div>
+        <div class="also-consider">
+          <h4>Also worth exploring</h4>
+          <div class="also-tags">
+            ${a.also.map(t => `<span class="also-tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-credit">Presented by Maria Manuela Perez &bull; HubSpot Global Contract Management Team</div>
+    <button class="restart-btn" onclick="restart()">&#8635; Retake the quiz</button>
+  `;
+}
+
+function restart() {
+  answers = []; current = 0; selected = null;
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  buildDots();
+  renderQuestion();
+}
+</script>
+</body>
+</html>
